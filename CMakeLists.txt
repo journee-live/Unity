@@ -9,7 +9,7 @@
 #                                                                                 #
 ###################################################################################
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.16)
 
 # Read src/unity.h file and get project version from it
 set(UNITY_HEADER "src/unity.h")
@@ -169,3 +169,6 @@ install(FILES   ${PROJECT_NAME}Config.cmake
                 ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
