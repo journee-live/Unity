@@ -97,14 +97,15 @@ set_target_properties(${PROJECT_NAME}
         EXPORT_NAME         framework
 )
 
-target_compile_options(${PROJECT_NAME}
-    PRIVATE
-        # Clang
-        $<$<C_COMPILER_ID:Clang>:
+if(${UNITY_PEDANTIC})
+    target_compile_options(${PROJECT_NAME}
+            PRIVATE
+            # Clang
+            $<$<C_COMPILER_ID:Clang>:
             -Wcast-align
             -Wcast-qual
             -Wconversion
-            -Wexit-time-destructors                            
+            -Wexit-time-destructors
             -Wglobal-constructors
             -Wmissing-noreturn
             -Wmissing-prototypes
@@ -115,10 +116,10 @@ target_compile_options(${PROJECT_NAME}
             -Werror
             -Wall
             $<$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,8.0.0>:-Wextra-semi-stmt>
-        >
-        
-        # GCC
-        $<$<C_COMPILER_ID:GNU>:
+            >
+
+            # GCC
+            $<$<C_COMPILER_ID:GNU>:
             -Waddress
             -Waggregate-return
             -Wformat-nonliteral
@@ -136,13 +137,14 @@ target_compile_options(${PROJECT_NAME}
             -Wpointer-arith
             -Werror
             -Wall
-        >
+            >
 
-        # MSVC
-        $<$<C_COMPILER_ID:MSVC>:
+            # MSVC
+            $<$<C_COMPILER_ID:MSVC>:
             /Wall
-        >
-)
+            >
+            )
+endif()
 
 write_basic_package_version_file(${PROJECT_NAME}ConfigVersion.cmake
     VERSION       ${PROJECT_VERSION}
